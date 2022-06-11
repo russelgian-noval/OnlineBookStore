@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+	
+	<!--load all styles -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts/css/all.css') }}">
+        <title>Book Store</title>
+        <title>Book Store</title>
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-blue fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{{ url_for('home') }}">E-Library Shelf</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+			  <a class="nav-item nav-link" href="{{ url_for('contact') }}">Contact</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{ url_for('order') }}">My Orders</a>
+                <a class="nav-item nav-link" href="{{ url_for('cart') }}">Cart</a>
+                <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-12">
+			<div class="content-section">
+				<div class="media">
+					<img class="rounded-circle account-img" src="{{url_for('static', filename='Profile_Image/' + current_user.image_file)}}">
+					<div class="media-body">
+						<h2 class="account-heading">{{ current_user.username }}</h2>
+						<p class="text-secondary">{{ current_user.email }}</p>
+						<div style="float:right">
+							<a class="btn btn-success btn-sm mt-1 mb-1" href="{{ url_for('account') }}">Edit</a>
+						</div>
+						<h6 class="text-secondary">{{ current_user.address }}</h6>
+						<p class="text-secondary">{{ current_user.state }}</p>
+						<p class="text-secondary">{{ current_user.pincode }}</p>
+					</div>
+				</div>
+			</div>
+			<div id="book-container">
+			</div>
+			<article class="media content-section">
+				<h3 class="book-title">Payment Mode&nbsp;:</h3>
+				<h3 class="article-content mode">Cash On Delivery</h3>
+			</article>
+			<article class="media content-section">
+				<h3 class="article-content">Total&nbsp;:</h3>
+				<h3 class="article-content" id="price"></h3>
+			<div class="checkout">
+				<div style="float:right">
+					<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Cancel</button>
+					<a class="btn btn-success btn-sm mt-1 mb-1" id="confirm" style="color: white;">Confirm</a>
+				</div>
+			</div>
+			</article>
+			<!-- Modal -->
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="deleteModalLabel">Cancel Transaction?</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<form action="{{ url_for('cancel') }}" method="POST">
+								<input class="btn btn-danger" type="submit" value="Cancel">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+      </div>
+    </main>
