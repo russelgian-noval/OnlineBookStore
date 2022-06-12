@@ -27,3 +27,9 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template('contact.html', title='Contact Page')
+
+# checkout
+@app.route("/checkout")
+@login_required
+def checkout():
+    return render_template('checkout.html')
