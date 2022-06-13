@@ -33,3 +33,9 @@ def contact():
 @login_required
 def checkout():
     return render_template('checkout.html')
+
+# order
+@app.route("/order")
+def order():
+    return render_template('order.html', title="order") 
+
