@@ -39,3 +39,12 @@ def get_orders():
     user_id = current_user.id
     result = spcall('get_orders', (user_id,))[0][0]
     return jsonify(result)
+
+    # for checkout page
+
+@app.route('/api/cart', methods=['GET'])
+@login_required
+def get_cart():
+    user_id = current_user.id
+    result = spcall('get_cart', (user_id,))[0][0]
+    return jsonify(result)
