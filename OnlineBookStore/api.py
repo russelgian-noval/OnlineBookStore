@@ -23,3 +23,19 @@ def add_cors(resp):
     if app.debug:
         resp.headers["Access-Control-Max-Age"] = '1'
     return resp
+    
+    # for order page
+    
+@app.route('/api/order', methods=['POST'])
+@login_required
+def create_order():
+    user_id = current_user.id
+    result = spcall('add_order', (user_id,), True)[0][0]
+    return jsonify(result)
+
+@app.route('/api/order', methods=['GET'])
+@login_required
+def get_orders():
+    user_id = current_user.id
+    result = spcall('get_orders', (user_id,))[0][0]
+    return jsonify(result)
