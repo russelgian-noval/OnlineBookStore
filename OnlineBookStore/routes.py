@@ -39,3 +39,8 @@ def checkout():
 def order():
     return render_template('order.html', title="order") 
 
+# book_info
+@app.route("/book_info/<int:book_id>")
+def book_info(book_id):
+    return render_template('book_info.html')
+
