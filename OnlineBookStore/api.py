@@ -48,3 +48,11 @@ def get_cart():
     user_id = current_user.id
     result = spcall('get_cart', (user_id,))[0][0]
     return jsonify(result)
+
+# for book_info page
+
+@app.route('/api/books/<int:book_id>', methods=['GET'])
+def get_book(book_id):
+        result = spcall('get_book', (book_id,))[0][0]
+    
+        return jsonify(result)
