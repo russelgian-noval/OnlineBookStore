@@ -63,3 +63,33 @@ begin
     );
 end;
 $$;
+
+-- to book_info
+CREATE OR REPLACE FUNCTION GET_BOOK(par_id int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_record record;
+    res text;
+begin
+
+    select into loc_record * from book where id = par_id;
+    if loc_record is not null then
+        return json_build_object(
+            'status', 'OK',
+            'id', loc_record.id,
+            'title', loc_record.title,
+            'author', loc_record.author,
+            'publication', loc_record.publication,
+            'content', loc_record.content,
+            'price', loc_record.price,
+            'piece', loc_record.piece,
+            'image_file', loc_record.image_file
+        );
+    else
+    return json_build_object(
+        'status', 'Book not found!'
+    );
+    end if;
+end;
+$$;
