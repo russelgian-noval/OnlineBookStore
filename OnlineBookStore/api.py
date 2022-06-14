@@ -56,3 +56,31 @@ def get_book(book_id):
         result = spcall('get_book', (book_id,))[0][0]
     
         return jsonify(result)
+    
+ # for cart page
+
+@app.route('/api/cart', methods=['POST'])
+@login_required
+def add_to_cart():
+    data = request.get_json()
+    book_id = data['book_id']
+    user_id = current_user.id
+    result = spcall('add_to_cart', (user_id, book_id), True)[0][0]
+    return jsonify(result)
+
+@app.route('/api/cart', methods=['GET'])
+@login_required
+def get_cart():
+    user_id = current_user.id
+    result = spcall('get_cart', (user_id,))[0][0]
+    return jsonify(result)
+
+@app.route('/api/cart', methods=['DELETE'])
+@login_required
+def delete_cart_item():
+    data = request.get_json()
+    print(data)
+    user_id = current_user.id
+    cart_id = data['cart_id']
+    result = spcall('delete_cart_item', (user_id, cart_id), True)[0][0]
+    return jsonify(result)
