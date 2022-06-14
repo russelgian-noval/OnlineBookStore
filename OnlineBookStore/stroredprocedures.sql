@@ -93,3 +93,36 @@ begin
     end if;
 end;
 $$;
+
+-- to order page
+CREATE OR REPLACE FUNCTION ADD_ORDER(par_uid int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    loc_record record;
+    sum_price numeric;
+    time_now timestamp WITHOUT TIME ZONE DEFAULT now();
+    loc_order_id int;
+    res text;
+begin
+    -- Get total price from cart
+    sum_price := 0;
+    FOR loc_record IN SELECT book.price FROM cart JOIN book ON cart.book_id = book.id WHERE user_id = par_uid LOOP
+        sum_price := sum_price + loc_record.price;
+    END LOOP;
+    -- Add order
+    insert into public.order (user_id, amount, order_date) values (par_uid, sum_price, time_now);
+    
+    -- Get order id
+    SELECT currval('order_id_seq') INTO loc_order_id;
+    -- Loop through cart and add to order_book and subtract from stock
+    FOR loc_record IN SELECT * FROM cart WHERE user_id = par_uid LOOP
+        insert into public.order_book (user_id, book_id, order_id) values (par_uid, loc_record.book_id, loc_order_id);
+        update public.book set piece = piece - 1 where id = loc_record.book_id;
+    END LOOP;
+    -- Delete cart
+    delete from cart where user_id = par_uid;
+    -- Return json
+    return jsonb_build_object('status', 'OK');
+end;
+$$;
