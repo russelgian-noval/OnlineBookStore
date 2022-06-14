@@ -44,3 +44,8 @@ def order():
 def book_info(book_id):
     return render_template('book_info.html')
 
+# cart
+@app.route("/cart")
+def cart():
+    return render_template('cart.html', title="cart")
+
