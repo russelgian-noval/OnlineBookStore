@@ -49,6 +49,16 @@ def get_cart():
     result = spcall('get_cart', (user_id,))[0][0]
     return jsonify(result)
 
+@app.route('/api/cart', methods=['DELETE'])
+@login_required
+def delete_cart_item():
+    data = request.get_json()
+    print(data)
+    user_id = current_user.id
+    cart_id = data['cart_id']
+    result = spcall('delete_cart_item', (user_id, cart_id), True)[0][0]
+    return jsonify(result)
+
 # for book_info page
 
 @app.route('/api/books/<int:book_id>', methods=['GET'])
