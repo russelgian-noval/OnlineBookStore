@@ -149,3 +149,88 @@ begin
     return json_build_object('status', res);
 end;
 $$;
+
+-- to add cart
+CREATE OR REPLACE FUNCTION ADD_TO_CART(par_uid int, par_bid int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+begin
+    insert into cart (user_id, book_id) VALUES (par_uid, par_bid);
+    RETURN json_build_object('status', 'OK');
+end;
+$$;
+
+CREATE OR REPLACE FUNCTION GET_CART(par_uid int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_prod_record record;
+    loc_prod_json json[];
+    loc_size int default 0;
+begin
+    for loc_prod_record in 
+    select cart.id, book.image_file, book.title, book.author, book.price from book 
+    JOIN cart ON book.id = cart.book_id where cart.user_id = par_uid 
+    loop
+        loc_prod_json = loc_prod_json ||
+                        json_build_object(
+                            'id', loc_prod_record.id,
+                            'image_file', loc_prod_record.image_file,
+                            'title', loc_prod_record.title,
+                            'author', loc_prod_record.author,
+                            'price', loc_prod_record.price
+                        );
+        loc_size = loc_size + 1;
+    end loop;
+    
+    return json_build_object(
+        'status', 'OK',
+        'size', loc_size,
+        'cart', loc_prod_json
+    );
+end;
+$$;
+
+CREATE OR REPLACE FUNCTION DELETE_CART_ITEM(par_uid int, par_cid int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_record record;
+    result text;
+begin
+    select into loc_record * from cart where id=par_cid and user_id=par_uid;
+    if loc_record is null then
+        result = 'Cart item not found';
+    else
+        delete from cart where user_id = par_uid and id = par_cid;
+        result = 'OK';
+    end if;
+    
+    return json_build_object(
+        'status', result
+    );
+end;
+$$;
+
+--to verify address
+CREATE OR REPLACE FUNCTION verify_address(par_id int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_record record;
+    res text;
+begin
+    select into loc_record * from public.user where id = par_id;
+    if 
+        loc_record.address != null 
+        or loc_record.state != NULL 
+        or loc_record.pincode != null
+    then
+        res = 'OK';
+    else
+        res = 'Please enter your address and state and pincode';
+    end if;
+
+    return json_build_object('status', res);
+end;
+$$;
