@@ -126,3 +126,26 @@ begin
     return jsonb_build_object('status', 'OK');
 end;
 $$;
+
+-- to verify address
+CREATE OR REPLACE FUNCTION verify_address(par_id int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_record record;
+    res text;
+begin
+    select into loc_record * from public.user where id = par_id;
+    if 
+        loc_record.address != null 
+        or loc_record.state != NULL 
+        or loc_record.pincode != null
+    then
+        res = 'OK';
+    else
+        res = 'Please enter your address and state and pincode';
+    end if;
+
+    return json_build_object('status', res);
+end;
+$$;
