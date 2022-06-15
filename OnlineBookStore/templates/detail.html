@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+	
+	<!--load all styles -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts/css/all.css') }}">
+    {% if title %}
+        <title>Book Store - {{ title }}</title>
+    {% else %}
+        <title>Book Store</title>
+    {% endif %}
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0" id="main-table">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="/static/images/logo.jpg" style="width:100%; max-width:300px;">
+                            </td>
+                            
+                            <td>
+                                Invoice No : 31BOST04<span id="id"></span><br>
+                                Date: <span id="date"></span><br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                ELibrary Shelf<br>
+                                Iligan City,<br>
+                                Philippines<br>
+								9200
+                            </td>
+                            
+                            <td>
+                                <span id="username"></span><br>
+                                <span id="email"></span><br>
+                                <span id="address"></span><br>
+								<span id="state"></span>-<span id="pincode"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="heading" id='book-heading'>
+                <td>
+                    Book Name
+                </td>
+                
+                <td>
+                    Price
+                </td>
+            </tr>
+            
+            <tr class="total">
+                <td></td>
+                
+                <td>
+                   Total: ₱<span class="total-amount"></span>
+                </td>
+            </tr>
+			            
+			<tr class="heading">
+                <td>
+                    Payment Method
+                </td>
+                
+                <td>
+                    Total Amount(To pay)
+                </td>
+            </tr>
+            
+            <tr class="details">
+                <td>
+                    Cash on Delivery
+                </td>
+                
+                <td>
+                    ₱<span class="total-amount"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/detail.js') }}"></script>
+</body>
+</html>
