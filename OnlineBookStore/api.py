@@ -94,3 +94,11 @@ def delete_cart_item():
     cart_id = data['cart_id']
     result = spcall('delete_cart_item', (user_id, cart_id), True)[0][0]
     return jsonify(result)
+
+# verify address
+@app.route('/api/verify_address', methods=['GET'])
+@login_required
+def verify_address():
+    user_id = current_user.id
+    result = spcall('verify_address', (user_id), True)[0][0]
+    return jsonify(result)
