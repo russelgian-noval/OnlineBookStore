@@ -49,3 +49,16 @@ def book_info(book_id):
 def cart():
     return render_template('cart.html', title="cart")
 
+@app.route("/detail/<int:order_id>")
+def detail(order_id):
+    return render_template('detail.html', title="Order Detail") 
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+@app.route("/cancel",methods=['POST'])
+def cancel():
+    flash('Transaction has been Cancelled', 'success')
+    return redirect(url_for('cart'))
