@@ -62,3 +62,9 @@ def logout():
 def cancel():
     flash('Transaction has been Cancelled', 'success')
     return redirect(url_for('cart'))
+
+# account page
+@app.route("/account", methods=['GET', 'POST'])
+@login_required
+def account():
+    return render_template('account.html', title='Account')
