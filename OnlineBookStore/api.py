@@ -59,6 +59,24 @@ def delete_cart_item():
     result = spcall('delete_cart_item', (user_id, cart_id), True)[0][0]
     return jsonify(result)
 
+@app.route('/api/account', methods=['GET'])
+@login_required
+def get_account():
+    user_id = current_user.id
+    result = spcall('get_user', (user_id,))[0][0]
+    return jsonify(result)
+
+@app.route('/api/account', methods=['PUT'])
+@login_required
+def update_account():
+    data = request.get_json()
+    user_id = current_user.id
+    if len(data['image_file']) <1:
+        data['image_file'] = 'default.jpg'
+    result = spcall('update_user', (user_id, data['username'], data['email'], data['image_file'], 
+                    data['address'], data['state'], data['pincode']), True)[0][0]
+    return jsonify(result)
+
 # for book_info page
 
 @app.route('/api/books/<int:book_id>', methods=['GET'])
