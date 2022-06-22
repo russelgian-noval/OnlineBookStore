@@ -234,3 +234,59 @@ begin
     return json_build_object('status', res);
 end;
 $$;
+
+-- accout page
+CREATE OR REPLACE FUNCTION GET_USER(par_id int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_record record;
+    res text;
+begin
+
+    select into loc_record * from public.user where id = par_id;
+    if loc_record is not null then
+        return json_build_object(
+            'status', 'OK',
+            'user', jsonb_build_object(
+                'id', loc_record.id,
+                'username', loc_record.username,
+                'email', loc_record.email,
+                'image_file', loc_record.image_file,
+                'address', loc_record.address,
+                'state', loc_record.state,
+                'pincode', loc_record.pincode
+            )
+        );
+    else
+    return json_build_object(
+        'status', 'User not found!'
+    );
+    end if;
+end;
+$$;
+
+CREATE OR REPLACE FUNCTION update_user(par_id int, par_username text, par_email text, par_imfile text, 
+                                        par_address text, par_state text, par_pcode int) 
+    RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_record record;
+    res text;
+begin
+
+    select into loc_record * from public.user where id = par_id;
+    if loc_record is not null then
+        update public.user set username = par_username, email = par_email, image_file = par_imfile, 
+                            address = par_address, state = par_state, pincode = par_pcode where id = par_id;
+        return json_build_object(
+            'status', 'OK'
+        );
+    else
+    return json_build_object(
+        'status', 'Book not found!'
+    );
+    end if;
+end;
+$$;
