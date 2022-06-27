@@ -290,3 +290,54 @@ begin
     end if;
 end;
 $$;
+
+
+CREATE OR REPLACE FUNCTION GET_DETAIL(par_user_id int, par_order_id int) RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_order_record record;
+    loc_order json;
+    loc_user_record record;
+    loc_user json;
+    loc_record record;
+    loc_json json[];
+    loc_size int default 0;
+begin
+    for loc_record in 
+    select o.id, b.title, b.price from order_book o join book b on o.book_id = b.id where o.order_id = par_order_id loop
+        loc_json = loc_json ||
+                        json_build_object(
+                            'id', loc_record.id,
+                            'title', loc_record.title,
+                            'price', loc_record.price
+                        );
+        loc_size = loc_size + 1;
+    end loop;
+
+    select into loc_order_record * from public.order where id = par_order_id;
+    loc_order = jsonb_build_object(
+        'id', loc_order_record.id,
+        'amount', loc_order_record.amount,
+        'order_date', loc_order_record.order_date
+    );
+
+    select into loc_user_record * from public.user where id = par_user_id;
+    loc_user = jsonb_build_object(
+        'id', loc_user_record.id,
+        'username', loc_user_record.username,
+        'email', loc_user_record.email,
+        'address', loc_user_record.address,
+        'state', loc_user_record.state,
+        'pincode', loc_user_record.pincode
+    );
+    
+    return json_build_object(
+        'status', 'OK',
+        'order_size', loc_size,
+        'orders', loc_json,
+        'order', loc_order,
+        'user', loc_user
+    );
+end;
+$$;
