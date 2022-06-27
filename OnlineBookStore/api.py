@@ -120,3 +120,10 @@ def verify_address():
     user_id = current_user.id
     result = spcall('verify_address', (user_id), True)[0][0]
     return jsonify(result)
+
+#get order
+@app.route('/api/order/<int:order_id>', methods=['GET'])
+@login_required
+def get_order(order_id):
+    result = spcall('get_detail', (current_user.id, order_id,))[0][0]
+    return jsonify(result)
