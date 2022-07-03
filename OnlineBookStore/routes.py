@@ -68,3 +68,17 @@ def cancel():
 @login_required
 def account():
     return render_template('account.html', title='Account')
+
+@app.route("/admin")
+def admin():
+    if current_user.is_authenticated and current_user.role == 'admin':
+        return render_template('admin.html', title='Admin Page')
+    else:
+        abort(403)
+# admin login
+@app.route("/adminlogin",methods=['GET', 'POST'])
+def adminlogin():
+    if current_user.is_authenticated and current_user.role=='admin':
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('login'))
