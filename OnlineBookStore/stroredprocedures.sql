@@ -366,3 +366,17 @@ begin
     end if;
 end;
 $$;
+
+CREATE OR REPLACE FUNCTION ADD_BOOK(par_title text, par_author text, par_pubication text,
+        par_isbn text, par_content text, par_price int, par_piece int, par_image_file text) 
+    RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+    begin
+        -- Add order
+        insert into public.book (title, author, publication, isbn, content, price, piece, image_file) 
+                values (par_title, par_author, par_pubication, par_isbn, par_content, par_price, par_price, par_image_file);
+        -- Return json
+        return jsonb_build_object('status', 'OK');
+    end;
+$$;
