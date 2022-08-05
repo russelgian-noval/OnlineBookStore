@@ -76,10 +76,14 @@ def admin():
     else:
         abort(403)
         
-@app.route("/account", methods=['GET', 'POST'])
+# Update book
+@app.route("/update_book/<int:book_id>",methods=['GET', 'POST'])
 @login_required
-def account():
-    return render_template('account.html', title='Account')
+def update_book(book_id):
+    if current_user.role=='admin':
+        return render_template('update_book.html', title='Update Book')
+    else:
+        return redirect(url_for('login'))
 
 # admin login
 @app.route("/adminlogin",methods=['GET', 'POST'])
