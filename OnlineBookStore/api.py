@@ -156,3 +156,39 @@ def update_book_api(book_id):
         return jsonify(result)
     else:
         abort(403)
+
+def save_picture(image):
+    print(guess_extension(guess_type(image)[0]))
+    # handle the filename and directory
+    extension = guess_extension(guess_type(image)[0])
+    random_filename = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
+    name = random_filename + extension
+
+    # Save the image to uploads folder
+    with open(f".\OnlineBookStore\static\Book_Image\{name}", "wb") as fh:
+        im = Image.open(BytesIO(base64.b64decode(image.split(",")[1])))
+        im.save(fh)
+
+    return name
+
+# add book
+@app.route('/api/books', methods=['POST'])
+@login_required
+def add_book():
+    if current_user.role == 'admin':
+        data = request.get_json()
+        title = data['title']
+        author = data['author']
+        publication = data['publication']
+        isbn = data['isbn']
+        content = data['content']
+        price = data['price']
+        piece = data['piece']
+        name = save_picture(data['photo_image'])
+        
+
+        result = spcall('add_book', (title, author, publication, isbn, content, 
+                                        price, piece, name), True)[0][0]
+        return jsonify(result)
+    else:
+        abort(403)
