@@ -75,6 +75,12 @@ def admin():
         return render_template('admin.html', title='Admin Page')
     else:
         abort(403)
+        
+@app.route("/account", methods=['GET', 'POST'])
+@login_required
+def account():
+    return render_template('account.html', title='Account')
+
 # admin login
 @app.route("/adminlogin",methods=['GET', 'POST'])
 def adminlogin():
