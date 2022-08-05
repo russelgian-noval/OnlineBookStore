@@ -341,3 +341,28 @@ begin
     );
 end;
 $$;
+
+CREATE OR REPLACE FUNCTION update_book(par_id int, par_title text, par_author text, par_pubication text,
+        par_isbn text, par_content text, par_price int, par_piece int, par_image_file text) 
+    RETURNS json
+    LANGUAGE plpgsql
+    AS $$
+declare
+    loc_record record;
+    res text;
+begin
+
+    select into loc_record * from book where id = par_id;
+    if loc_record is not null then
+        update book set title = par_title, author = par_author, publication = par_pubication, 
+                            isbn = par_isbn, content = par_content, price = par_price, piece = par_piece, image_file = par_image_file where id = par_id;
+        return json_build_object(
+            'status', 'OK'
+        );
+    else
+    return json_build_object(
+        'status', 'Book not found!'
+    );
+    end if;
+end;
+$$;
