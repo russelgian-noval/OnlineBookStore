@@ -92,3 +92,12 @@ def adminlogin():
         return redirect(url_for('admin'))
     else:
         return redirect(url_for('login'))
+
+# Add book
+@app.route("/addbook",methods=['GET', 'POST'])
+@login_required
+def addbook():
+    if current_user.role=='admin':
+        return render_template('addbook.html', title='Add Book') 
+    else:
+        return redirect(url_for('login'))
