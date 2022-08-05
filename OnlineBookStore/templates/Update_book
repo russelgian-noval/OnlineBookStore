@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/image_upload.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+	
+	<!--load all styles -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts/css/all.css') }}">
+    {% if title %}
+        <title>Book Store - {{ title }}</title>
+    {% else %}
+        <title>Book Store</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-blue fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{{ url_for('admin') }}">Book Store-ADMIN PAGE</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+				<a class="nav-item nav-link" href="{{ url_for('addbook') }}">Add Book</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('adminlogin') }}">Login</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="content-section" id="cs">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">ADD BOOK</legend>
+                        <div class="form-group">
+                            <label for="bookname">Title</label>
+                            <input id="bookname" required type="text" name="bookname" class="form-control form-control-lg" value> 
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author</label>
+                            <input id="author" required type="text" name="author" class="form-control form-control-lg" value> 
+                        </div>
+                        <div class="form-group">
+                            <label for="publication">Publication</label>
+                            <input id="publication" required type="text" name="publication" class="form-control form-control-lg" value>
+                        </div>
+                        <div class="form-group">
+                            <label for="isbn">ISBN</label>
+                            <input id="isbn" required type="text" name="isbn" class="form-control form-control-lg" value>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content</label>
+                            <input id="content" required type="text" name="content" class="form-control form-control-lg" value>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input id="price" required type="text" name="price" class="form-control form-control-lg" value>
+                        </div>
+                        <div class="form-group">
+                            <label for="piece">Piece</label>
+                            <input id="piece" required type="text" name="piece" class="form-control form-control-lg" value>
+                        </div>
+                        <div class="form-group" id="imgs">
+                            <label for="image">Add Book Picture</label>
+                            <div id="photo-div" class="col-md-5 col-xl-4">
+                              <div class="picture-container">
+                                  <div class="picture">
+                                      <img src="https://lh3.googleusercontent.com/LfmMVU71g-HKXTCP_QWlDOemmWg4Dn1rJjxeEsZKMNaQprgunDTtEuzmcwUBgupKQVTuP0vczT9bH32ywaF7h68mF-osUSBAeM6MxyhvJhG6HKZMTYjgEv3WkWCfLB7czfODidNQPdja99HMb4qhCY1uFS8X0OQOVGeuhdHy8ln7eyr-6MnkCcy64wl6S_S6ep9j7aJIIopZ9wxk7Iqm-gFjmBtg6KJVkBD0IA6BnS-XlIVpbqL5LYi62elCrbDgiaD6Oe8uluucbYeL1i9kgr4c1b_NBSNe6zFwj7vrju4Zdbax-GPHmiuirf2h86eKdRl7A5h8PXGrCDNIYMID-J7_KuHKqaM-I7W5yI00QDpG9x5q5xOQMgCy1bbu3St1paqt9KHrvNS_SCx-QJgBTOIWW6T0DHVlvV_9YF5UZpN7aV5a79xvN1Gdrc7spvSs82v6gta8AJHCgzNSWQw5QUR8EN_-cTPF6S-vifLa2KtRdRAV7q-CQvhMrbBCaEYY73bQcPZFd9XE7HIbHXwXYA=s200-no" class="picture-src" id="wizardPicturePreview" title="">
+                                      <input type="file" id="wizard-picture" name="file" class="">
+                                  </div>
+                              </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        <input type="button" name="submit" id="submit" value="Add Book" class="btn btn-outline-info">
+                    </div>
+                </form>
+            </div>
+		</div>
+      </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mocha/1.0.2/package/lib/browser/fs.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/update_book.js') }}"></script>
+</body>
+</html>
