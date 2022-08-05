@@ -127,3 +127,32 @@ def verify_address():
 def get_order(order_id):
     result = spcall('get_detail', (current_user.id, order_id,))[0][0]
     return jsonify(result)
+
+# update book
+@app.route('/api/books/<int:book_id>', methods=['PUT'])
+@login_required
+def update_book_api(book_id):
+    if current_user.role == 'admin':
+        data = request.get_json()
+        title = data['title']
+        author = data['author']
+        publication = data['publication']
+        isbn = data['isbn']
+        content = data['content']
+        price = data['price']
+        piece = data['piece']
+
+        # get the old image name
+        result = spcall('get_book', (book_id,))[0][0]
+
+        if data['photo_image'] == None:
+            name = result['image_file']
+        else:
+            name = save_picture(data['photo_image'])
+            # delete the old image
+            os.remove(f".\OnlineBookStore\static\Book_Image\{result['image_file']}")
+        result = spcall('update_book', (book_id, title, author, publication, isbn, content, 
+                                        price, piece, name), True)[0][0]
+        return jsonify(result)
+    else:
+        abort(403)
