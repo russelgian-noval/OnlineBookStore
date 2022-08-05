@@ -191,6 +191,7 @@ begin
 end;
 $$;
 
+-- to delete cart item
 CREATE OR REPLACE FUNCTION DELETE_CART_ITEM(par_uid int, par_cid int) RETURNS json
     LANGUAGE plpgsql
     AS $$
@@ -235,7 +236,7 @@ begin
 end;
 $$;
 
--- accout page
+-- account page
 CREATE OR REPLACE FUNCTION GET_USER(par_id int) RETURNS json
     LANGUAGE plpgsql
     AS $$
@@ -266,6 +267,7 @@ begin
 end;
 $$;
 
+-- to create update user
 CREATE OR REPLACE FUNCTION update_user(par_id int, par_username text, par_email text, par_imfile text, 
                                         par_address text, par_state text, par_pcode int) 
     RETURNS json
@@ -291,7 +293,7 @@ begin
 end;
 $$;
 
-
+-- to get details
 CREATE OR REPLACE FUNCTION GET_DETAIL(par_user_id int, par_order_id int) RETURNS json
     LANGUAGE plpgsql
     AS $$
@@ -342,6 +344,7 @@ begin
 end;
 $$;
 
+-- to update book
 CREATE OR REPLACE FUNCTION update_book(par_id int, par_title text, par_author text, par_pubication text,
         par_isbn text, par_content text, par_price int, par_piece int, par_image_file text) 
     RETURNS json
@@ -367,6 +370,7 @@ begin
 end;
 $$;
 
+-- to add book
 CREATE OR REPLACE FUNCTION ADD_BOOK(par_title text, par_author text, par_pubication text,
         par_isbn text, par_content text, par_price int, par_piece int, par_image_file text) 
     RETURNS json
