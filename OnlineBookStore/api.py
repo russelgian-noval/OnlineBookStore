@@ -1,6 +1,10 @@
-from flask import jsonify, request
+from flask import jsonify, request, abort
 from OnlineBookStore import app
 from OnlineBookStore.conndb import spcall
+from io import BytesIO
+from PIL import Image
+import os, base64, random, string
+from mimetypes import guess_extension, guess_type
 from flask_login import login_required, current_user
 
 @app.route('/api/books', methods=['GET'])
@@ -94,23 +98,6 @@ def add_to_cart():
     book_id = data['book_id']
     user_id = current_user.id
     result = spcall('add_to_cart', (user_id, book_id), True)[0][0]
-    return jsonify(result)
-
-@app.route('/api/cart', methods=['GET'])
-@login_required
-def get_cart():
-    user_id = current_user.id
-    result = spcall('get_cart', (user_id,))[0][0]
-    return jsonify(result)
-
-@app.route('/api/cart', methods=['DELETE'])
-@login_required
-def delete_cart_item():
-    data = request.get_json()
-    print(data)
-    user_id = current_user.id
-    cart_id = data['cart_id']
-    result = spcall('delete_cart_item', (user_id, cart_id), True)[0][0]
     return jsonify(result)
 
 # verify address
