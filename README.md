@@ -23,11 +23,11 @@ Go to `OnlineBookStore/__init__.py` and change the `app.config['SQLALCHEMY_DATAB
 
 `python run.py` to run the web application.
 
-Default credentials:
-**User**
-Username: *test*
-Password: *test@test.com*
+Default credentials:$\\$
+**User**$\\$
+Username: *test*$\\$
+Password: *test@test.com* $\\$
 
-**User**
-Username: *test*
+**User**$\\$
+Username: *test*$\\$
 Password: *test@admin.com*
