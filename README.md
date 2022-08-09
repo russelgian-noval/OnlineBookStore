@@ -33,7 +33,7 @@ Password: *test@test.com*
 
 
 
-**User**
+**Admin**
 
 Username: *test*
 
