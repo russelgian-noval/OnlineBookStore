@@ -5,7 +5,7 @@ from flask_login import LoginManager
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'eebd384deb482dfef8f476d9f2adbe56'
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:root@localhost:5432/onlinebooking'
+app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:root@localhost:5432/db.sql'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
