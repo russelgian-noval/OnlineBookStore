@@ -867,3 +867,40 @@ ALTER TABLE ONLY public."order"
 -- PostgreSQL database dump complete
 --
 
+INSERT INTO public.book (id, title, author, publication, isbn, content, price, piece, image_file) VALUES (1, 'A Harry Potter and the Philosophers Stone', 'J.K. Rowling', 'Bloomsbury Publishing', '12345678915', 'Escape to Hogwarts with the unmissable series that has sparked a lifelong reading journey for children and families all over the world. The magic starts here.', 329, -5, 'ce3fdfb1ab04a4cf.jpg');
+
+
+--
+-- TOC entry 3055 (class 0 OID 44149)
+-- Dependencies: 208
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO public."user" (id, username, email, image_file, password, address, state, pincode, role) VALUES (6, 'testadmin', 'test@admin.com', 'image', '$2b$12$W6dD.2rp8M2hM7I.xDTQ3.DVQx6lqsqlKBur6zHxK8/g.6hh8ymJi', NULL, NULL, NULL, 'admin');
+INSERT INTO public."user" (id, username, email, image_file, password, address, state, pincode, role) VALUES (5, 'test', 'test@test.com', 'default.jpg', '$2b$12$W6dD.2rp8M2hM7I.xDTQ3.DVQx6lqsqlKBur6zHxK8/g.6hh8ymJi', NULL, 'Lanao Del Norte', 9200, 'user');
+
+
+--
+-- TOC entry 3049 (class 0 OID 44134)
+-- Dependencies: 202
+-- Data for Name: cart; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+
+
+--
+-- TOC entry 3051 (class 0 OID 44139)
+-- Dependencies: 204
+-- Data for Name: order; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO public."order" (id, user_id, amount, order_date) VALUES (13, 5, 329, '2022-08-09 22:27:30.630143');
+
+
+--
+-- TOC entry 3052 (class 0 OID 44142)
+-- Dependencies: 205
+-- Data for Name: order_book; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO public.order_book (id, user_id, book_id, order_id) VALUES (11, 5, 1, 13);
